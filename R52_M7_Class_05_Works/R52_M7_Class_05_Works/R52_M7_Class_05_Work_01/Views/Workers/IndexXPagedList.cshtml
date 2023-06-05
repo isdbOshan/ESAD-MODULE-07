@@ -1,0 +1,51 @@
+﻿@model IEnumerable<R52_M7_Class_05_Work_01.Models.ViewModels.WorkerViewModel>
+@using X.PagedList;
+@using X.PagedList.Mvc
+@using X.PagedList.Mvc.Common
+@{
+    ViewBag.Title = "IndexXPagedList";
+}
+
+<div class="row">
+    <div class="col-12">
+        <h3>Hired Workers</h3>
+        <table class="table table-bordered table-striped">
+            <thead class="table-light">
+                <tr>
+                    <th>@Html.DisplayNameFor(x => x.Name)</th>
+                    <th>@Html.DisplayNameFor(x => x.PayRate)</th>
+                    <th>@Html.DisplayNameFor(x => x.StartDate)</th>
+                    <th>@Html.DisplayNameFor(x => x.EndDate)</th>
+                    <th>@Html.DisplayNameFor(x => x.TotalDaysWorked)</th>
+                    <th>@Html.DisplayNameFor(x => x.TotalPay)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var w in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(x => w.Name)</td>
+                        <td>@Html.DisplayFor(x => w.PayRate)</td>
+                        <td>@Html.DisplayFor(x => w.StartDate)</td>
+                        <td>@Html.DisplayFor(x => w.EndDate)</td>
+                        <td>@Html.DisplayFor(x => w.TotalDaysWorked)</td>
+                        <td>@Html.DisplayFor(x => w.TotalPay)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-end">
+       @Html.PagedListPager((IPagedList)Model, page => Url.Action("IndexXPagedList", new { page = page }),
+        new PagedListRenderOptions()
+        {
+            DisplayItemSliceAndTotal = true,
+            DisplayPageCountAndCurrentLocation=false,
+            
+           
+        })
+        </div>
+    </div>
+</div>
+@section styles {
+    <link href="~/Content/PagedList.css" rel="stylesheet" />
+}

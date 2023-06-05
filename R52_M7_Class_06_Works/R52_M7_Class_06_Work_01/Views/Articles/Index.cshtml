@@ -1,0 +1,23 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+<div class="row">
+    <div class="col-12" id="loading" style="display:none">
+        <div class="d-flex align-items-center" >
+            <span>Loading...</span>
+            <div class="spinner-border text-primary ms-auto" role="status" aria-hidden="true"></div>
+        </div>
+    </div>
+    <div class="col-12" id="placeholder">
+        <div class="d-flex justify-content-end mb-1">
+            @Html.ActionLink("Create New", "Create", "Articles",new { }, new {@class="btn btn-outline-primary btn-sm"})
+        </div>
+       
+        @Html.Action("Articles", "Articles")
+    </div>
+</div>
+@section scripts {
+    <script src="~/Scripts/jquery-3.6.3.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+}

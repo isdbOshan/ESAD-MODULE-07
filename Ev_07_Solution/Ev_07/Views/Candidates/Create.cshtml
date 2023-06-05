@@ -1,0 +1,106 @@
+﻿@model Ev_07.ViewModels.CandidateViewModel
+@{
+    ViewBag.Title = "Create";
+}
+
+<div class="row">
+    <div class="col-12">
+        <h3>Create new candidate</h3>
+        <div id="alert" style="display:none">
+
+        </div>
+        @using (Html.BeginForm("Create", "Candidates", FormMethod.Post, htmlAttributes: new { id = "frm" }))
+        {
+            <div class="form-group row mb-1">
+                <label class="col-form-label col-2">Candidate name</label>
+                <div class="col-4">
+                    @Html.TextBoxFor(x => x.CandidateName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.CandidateName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group row mb-1">
+                <label class="col-form-label col-2">Date of birth</label>
+                <div class="col-4">
+                    @Html.TextBoxFor(x => x.BirthDate, new { @class = "form-control date" })
+                    @Html.ValidationMessageFor(x => x.BirthDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group row mb-1">
+                <label class="col-form-label col-2">Applied for</label>
+                <div class="col-4">
+                    @Html.TextBoxFor(x => x.AppliedFor, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.AppliedFor, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group row mb-1">
+                <label class="col-form-label col-2">Expected Salary</label>
+                <div class="col-4">
+                    @Html.TextBoxFor(x => x.ExpectedSalary, new { @class = "form-control", @type = "number" })
+                    @Html.ValidationMessageFor(x => x.ExpectedSalary, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group row mb-1">
+                <label class="col-form-label col-2">Agree to work from home?</label>
+                <div class="col-4">
+                    @Html.CheckBoxFor(x => x.WorkFromHome)
+                    @Html.ValidationMessageFor(x => x.WorkFromHome, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group row mb-1">
+                <label class="col-form-label col-2">Picture</label>
+                <div class="col-4">
+                    @Html.TextBoxFor(x => x.Picture, new { @class = "form-control", @type = "file" })
+                    @Html.ValidationMessageFor(x => x.Picture, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group row mb-1">
+
+                <div class="col-4">
+                    <button type="button" class="btn btn-primary" id="save">Save</button>
+                </div>
+            </div>
+        }
+    </div>
+
+</div>
+@section styles{
+    <link href="~/Content/bootstrap-datepicker.standalone.css" rel="stylesheet" />
+}
+@section scripts{
+    <script src="~/Scripts/jquery-3.6.3.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <script>
+        $(() => {
+            $(".date").datepicker({
+                format: "yyyy-mm-dd"
+            });
+            $("#save").click(() => {
+                var isValid = $("#frm").valid();
+                if (isValid) {
+                    var formData = new FormData();
+                    formData.append("CandidateName", $("#CandidateName").val());
+                    formData.append("BirthDate", $("#BirthDate").val());
+                    formData.append("AppliedFor", $("#AppliedFor").val());
+                    formData.append("ExpectedSalary", $("#ExpectedSalary").val());
+                    formData.append("WorkFromHome", document.getElementById("WorkFromHome").checked);
+                    if (document.getElementById("Picture").files.length > 0) {
+                        formData.append("Picture", document.getElementById("Picture").files[0]);
+                        console.log(formData);
+                    }
+                    $.ajax({
+                        type: "POST",
+                        url: "/Candidates/Create",
+                        data: formData,
+                        contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
+                        processData: false,
+                        success: r => {
+                            $("#alert").html(r).show();
+                        }
+                    });
+                }
+            });
+        })
+    </script>
+}

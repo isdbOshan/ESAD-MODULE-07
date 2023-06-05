@@ -1,0 +1,16 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<div class="row">
+    <div class="col-12">
+        <h3>Car List</h3>
+        <div class="d-flex justify-content-sm-end mb-1">
+            @Html.ActionLink("Create", "Create", "CarDetails", new { }, new { @class = "btn btn-primary btn-sm" })
+        </div>
+        @Html.Action("CarList", "CarDetails")
+    </div>
+</div>

@@ -1,0 +1,80 @@
+﻿@model CarInformation.Models.Car_Parts
+@{
+    ViewBag.Title = "Edit";
+}
+<div class="row">
+    <div class="col-12">
+        <div id="placeholder"></div>
+    </div>
+    <div class="col-12">
+        @using (Ajax.BeginForm("Edit", "Parts", new AjaxOptions
+        {
+            HttpMethod = "POST",
+            UpdateTargetId = "placeholder",
+            InsertionMode = InsertionMode.Replace
+
+        }, new { id = "frm" }))
+        {
+            @Html.HiddenFor(x => x.PartId)
+            <div class="form-group row mb-1">
+                <label class="col-form-label col-2">Candidate</label>
+                <div class="col-4">
+                    @Html.DropDownListFor(x => x.CarId, new SelectList(ViewBag.Candidates, "CarId", "Model"), "Select one", new { @class = "form-select" })
+                    @Html.ValidationMessageFor(x => x.CarId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group row mb-1">
+                <label class="col-form-label col-2">Engine_type</label>
+                <div class="col-4">
+                    @Html.TextBoxFor(x => x.Engine_type, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Engine_type, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group row mb-1">
+                <label class="col-form-label col-2">Fuel_type</label>
+                <div class="col-4">
+                    @Html.TextBoxFor(x => x.Fuel_type, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Fuel_type, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group row mb-1">
+                <label class="col-form-label col-2">Transmission</label>
+                <div class="col-4">
+                    @Html.TextBoxFor(x => x.Transmission, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Transmission, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group row mb-1">
+                <label class="col-form-label col-2">Number_of_doors</label>
+                <div class="col-4">
+                    @Html.TextBoxFor(x => x.Number_of_doors, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Number_of_doors, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group row mb-1">
+                <label class="col-form-label col-2">Exhaust_System</label>
+                <div class="col-4">
+                    @Html.TextBoxFor(x => x.Exhaust_System, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Exhaust_System, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group row mb-1">
+
+                <div class="col-4 offset-2">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="col-12">
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+</div>
+@section scripts {
+    <script src="~/Scripts/jquery-3.6.3.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
+}
+

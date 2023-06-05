@@ -1,0 +1,31 @@
+﻿@model IEnumerable<R52_M7_Class_02_Work_01.Models.Product>
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="row">
+    <div class="col-12">
+        <h3>Products</h3>
+        <div class="d-flex justify-content-end mb-1">
+            @Html.ActionLink("Create", "Create", "Products", new { }, new {@class="btn btn-primary"})
+        </div>
+        <table class="table table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>Product Name</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var p in Model)
+            {
+                <tr>
+                    <td>@p.ProductName</td>
+                    <td>@Html.DisplayFor(x=> p.Price)</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>
+

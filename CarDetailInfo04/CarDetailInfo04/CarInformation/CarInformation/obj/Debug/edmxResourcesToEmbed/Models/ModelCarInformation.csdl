@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DatabaseCarInformationModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Car_Parts">
+    <Key>
+      <PropertyRef Name="PartId" />
+    </Key>
+    <Property Name="PartId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Engine_type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Fuel_type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Transmission" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Number_of_doors" Type="Int32" />
+    <Property Name="Exhaust_System" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CarId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Car" Relationship="Self.FK__Car_Parts__CarId__38996AB5" FromRole="Car_Parts" ToRole="Cars" />
+  </EntityType>
+  <EntityType Name="Car">
+    <Key>
+      <PropertyRef Name="CarId" />
+    </Key>
+    <Property Name="CarId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Model" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Make" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Color" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Price" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+    <Property Name="Availabel" Type="Boolean" Nullable="false" />
+    <Property Name="Picture" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Car_Parts" Relationship="Self.FK__Car_Parts__CarId__38996AB5" FromRole="Cars" ToRole="Car_Parts" />
+  </EntityType>
+  <Association Name="FK__Car_Parts__CarId__38996AB5">
+    <End Role="Cars" Type="Self.Car" Multiplicity="1" />
+    <End Role="Car_Parts" Type="Self.Car_Parts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cars">
+        <PropertyRef Name="CarId" />
+      </Principal>
+      <Dependent Role="Car_Parts">
+        <PropertyRef Name="CarId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="DatabaseCarInfoContext" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Car_Parts" EntityType="Self.Car_Parts" />
+    <EntitySet Name="Cars" EntityType="Self.Car" />
+    <AssociationSet Name="FK__Car_Parts__CarId__38996AB5" Association="Self.FK__Car_Parts__CarId__38996AB5">
+      <End Role="Cars" EntitySet="Cars" />
+      <End Role="Car_Parts" EntitySet="Car_Parts" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

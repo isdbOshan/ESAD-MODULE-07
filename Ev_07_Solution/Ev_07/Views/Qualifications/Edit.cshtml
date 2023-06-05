@@ -1,0 +1,73 @@
+﻿@model Ev_07.Models.Qualification
+@{
+    ViewBag.Title = "Edit";
+}
+<div class="row">
+    <div class="col-12">
+        <div id="placeholder"></div>
+    </div>
+    <div class="col-12">
+        @using (Ajax.BeginForm("Edit", "Qualifications", new AjaxOptions
+        {
+            HttpMethod = "POST",
+            UpdateTargetId = "placeholder",
+            InsertionMode = InsertionMode.Replace
+            
+        }, new { id = "frm" }))
+        {
+            @Html.HiddenFor(x=> x.QualificationId)
+            <div class="form-group row mb-1">
+                <label class="col-form-label col-2">Candidate</label>
+                <div class="col-4">
+                    @Html.DropDownListFor(x => x.CandidateId, new SelectList(ViewBag.Candidates, "CandidateId", "CandidateName"), "Select one", new { @class = "form-select" })
+                    @Html.ValidationMessageFor(x => x.CandidateId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group row mb-1">
+                <label class="col-form-label col-2">Degree</label>
+                <div class="col-4">
+                    @Html.TextBoxFor(x => x.Degree, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Degree, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group row mb-1">
+                <label class="col-form-label col-2">University/College/Institute</label>
+                <div class="col-4">
+                    @Html.TextBoxFor(x => x.Institute, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Institute, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group row mb-1">
+                <label class="col-form-label col-2">Passing year</label>
+                <div class="col-4">
+                    @Html.TextBoxFor(x => x.PassingYear, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.PassingYear, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group row mb-1">
+                <label class="col-form-label col-2">Result</label>
+                <div class="col-4">
+                    @Html.TextBoxFor(x => x.Result, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Result, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group row mb-1">
+
+                <div class="col-4 offset-2">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="col-12">
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+</div>
+@section scripts {
+    <script src="~/Scripts/jquery-3.6.3.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+   
+}
+

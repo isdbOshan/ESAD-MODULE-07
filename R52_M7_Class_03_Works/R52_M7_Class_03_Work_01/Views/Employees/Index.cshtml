@@ -1,0 +1,39 @@
+﻿@model IEnumerable<R52_M7_Class_03_Work_01.Models.Employee>
+@{
+    ViewBag.Title = "Index";
+}
+<div class="row">
+    <div class="col-12">
+        <h3>Employees</h3>
+        <div class="d-flex justify-content-end mb-1">
+            @*@Html.ActionLink("Create New", "Create", "Employees", new { }, new { @class="btn btn-primary btn-sm" })*@
+            <a href="@Url.Action("Create", "Employees")" class="btn btn-success"><i class="bi bi-plus"></i></a>
+        </div>
+        <table class="table table-bordered">
+            <thead class="table-light">
+                <tr>
+                    <th>Employee Name</th>
+                    <th>Department</th>
+                    <th>Join Date</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var emp in Model)
+                {
+                    <tr>
+                        <td>@emp.EmployeeName</td>
+                        <td>@emp.Department.DepartmentCode</td>
+                        <td>@emp.JoinDate.ToString("yyyy-MM-dd")</td>
+                        <td>
+                            @*@Html.ActionLink("Edit", "Edit", "Employees", new {id=emp.EmployeeId}, new {@class="btn btn-primary btn-sm"})*@
+                            <a class="btn btn-primary btn-sm" href="@Url.Action("Edit", "Employees", new {id=emp.EmployeeId})"><i class="bi bi-pencil"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+</div>
+

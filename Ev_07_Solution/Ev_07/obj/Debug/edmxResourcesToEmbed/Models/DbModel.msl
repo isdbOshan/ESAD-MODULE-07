@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Ev_DbModelStoreContainer" CdmEntityContainer="EvDbContext">
+    <EntitySetMapping Name="Candidates">
+      <EntityTypeMapping TypeName="Ev_DbModel.Candidate">
+        <MappingFragment StoreEntitySet="Candidates">
+          <ScalarProperty Name="CandidateId" ColumnName="CandidateId" />
+          <ScalarProperty Name="CandidateName" ColumnName="CandidateName" />
+          <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+          <ScalarProperty Name="AppliedFor" ColumnName="AppliedFor" />
+          <ScalarProperty Name="ExpectedSalary" ColumnName="ExpectedSalary" />
+          <ScalarProperty Name="WorkFromHome" ColumnName="WorkFromHome" />
+          <ScalarProperty Name="Picture" ColumnName="Picture" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Qualifications">
+      <EntityTypeMapping TypeName="Ev_DbModel.Qualification">
+        <MappingFragment StoreEntitySet="Qualifications">
+          <ScalarProperty Name="QualificationId" ColumnName="QualificationId" />
+          <ScalarProperty Name="Degree" ColumnName="Degree" />
+          <ScalarProperty Name="PassingYear" ColumnName="PassingYear" />
+          <ScalarProperty Name="Institute" ColumnName="Institute" />
+          <ScalarProperty Name="Result" ColumnName="Result" />
+          <ScalarProperty Name="CandidateId" ColumnName="CandidateId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

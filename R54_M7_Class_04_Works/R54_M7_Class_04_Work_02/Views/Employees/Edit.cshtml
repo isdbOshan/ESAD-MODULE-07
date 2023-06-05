@@ -1,0 +1,85 @@
+﻿@model R54_M7_Class_04_Work_02.ViewModels.EmployeeEditModel
+@{
+    ViewBag.Title = "Edit";
+}
+
+
+@using (Html.BeginForm("Edit", "Employees", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(x=> x.EmployeeId)
+    <div class="row">
+        <div class="col-8">
+            <h3>Edit employee</h3>
+            <div class="form-group row mb-1">
+                @Html.LabelFor(x => x.EmployeeName, new { @class = "col-form-label col-2" })
+                <div class="col-4">
+                    @Html.TextBoxFor(x => x.EmployeeName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.EmployeeName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group row mb-1">
+                @Html.LabelFor(x => x.JoinDate, new { @class = "col-form-label col-2" })
+                <div class="col-4">
+                    @Html.TextBoxFor(x => x.JoinDate,  new { @class = "form-control date" })
+                    @Html.ValidationMessageFor(x => x.JoinDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group row mb-1">
+                @Html.LabelFor(x => x.DepartmentId, new { @class = "col-form-label col-2" })
+                <div class="col-4">
+                    @Html.DropDownListFor(x => x.DepartmentId, new SelectList(ViewBag.Departments, "DepartmentId", "DepartmentCode"), "Select one", new { @class = "form-select" })
+                    @Html.ValidationMessageFor(x => x.DepartmentId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group row mb-1">
+                @Html.LabelFor(x => x.Picture, new { @class = "col-form-label col-2" })
+                <div class="col-4">
+                    @Html.TextBoxFor(x => x.Picture, new { @class = "form-control", @type = "file" })
+                    @Html.ValidationMessageFor(x => x.Picture, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group row mb-1">
+
+                <div class="col-4 offset-2">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <img src="~/Uploads/@ViewBag.Picture" class="img-thumbnail" style="width:200px" />
+        </div>
+        <div class="col-12">
+            @Html.ActionLink("Back to list", "Index")
+        </div>
+    </div>
+}
+
+@section styles {
+    <link href="~/Content/bootstrap-datepicker.standalone.css" rel="stylesheet" />
+}
+@section scripts {
+    <script src="~/Scripts/jquery-3.6.3.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <script>
+        $(() => {
+            $(".date").datepicker({
+                format: "yyyy-mm-dd"
+            });
+            var dt = $(".date").val();
+            $(".date").val(formatDate(new Date(dt)));
+            
+        })
+        function formatDate(d) {
+            return [
+                d.getFullYear(),
+                (d.getMonth() + 1).toString().padStart(2, '0'),
+                d.getDate().toString().padStart(2, '0')
+            ].join('-');
+        }
+    </script>
+
+}
+
+

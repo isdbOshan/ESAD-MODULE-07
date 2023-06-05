@@ -1,0 +1,32 @@
+﻿@model IEnumerable<R52_Ex_07_Mid.Models.Candidate>
+<table class="table table-bordered">
+    <thead class="table-warning">
+        <tr>
+            <th></th>
+            <th>Candidate name</th>
+            <th>Date of birth</th>
+            <th>Applied for</th>
+            <th>Expected Salary</th>
+            <th>Work from home?</th>
+            <th>...</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var c in Model)
+        {
+            <tr>
+                <td><img src="~/Pictures/@c.Picture" class="rounded-circle" style="width:40px" /></td>
+                <td>@c.CandidateName</td>
+                <td>@c.BirthDate.ToString("yyyy-MM-dd")</td>
+                <td>@c.AppliedFor</td>
+                <td>@c.ExpectedSalary.ToString("0.00")</td>
+                <td>@(c.WorkFromHome.Value ? "Yes": "No")</td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", "Candidates", new { id = c.CandidateId }, new { @class = "btn btn-primary btn-sm" })
+                    
+                    @Html.ActionLink("Delete", "Delete", "Candidates", new { id = c.CandidateId }, new { @class = "btn btn-danger btn-sm" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

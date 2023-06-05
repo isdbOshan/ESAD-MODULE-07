@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DatabaseCarInformationModelStoreContainer" CdmEntityContainer="DatabaseCarInfoContext">
+    <EntitySetMapping Name="Car_Parts">
+      <EntityTypeMapping TypeName="DatabaseCarInformationModel.Car_Parts">
+        <MappingFragment StoreEntitySet="Car_Parts">
+          <ScalarProperty Name="PartId" ColumnName="PartId" />
+          <ScalarProperty Name="Engine_type" ColumnName="Engine_type" />
+          <ScalarProperty Name="Fuel_type" ColumnName="Fuel_type" />
+          <ScalarProperty Name="Transmission" ColumnName="Transmission" />
+          <ScalarProperty Name="Number_of_doors" ColumnName="Number_of_doors" />
+          <ScalarProperty Name="Exhaust_System" ColumnName="Exhaust_System" />
+          <ScalarProperty Name="CarId" ColumnName="CarId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Cars">
+      <EntityTypeMapping TypeName="DatabaseCarInformationModel.Car">
+        <MappingFragment StoreEntitySet="Cars">
+          <ScalarProperty Name="CarId" ColumnName="CarId" />
+          <ScalarProperty Name="Model" ColumnName="Model" />
+          <ScalarProperty Name="Make" ColumnName="Make" />
+          <ScalarProperty Name="Color" ColumnName="Color" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Availabel" ColumnName="Availabel" />
+          <ScalarProperty Name="Picture" ColumnName="Picture" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

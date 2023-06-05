@@ -1,0 +1,63 @@
+﻿@model IEnumerable<CarDetails_07_03.Models.Car>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<div class="row">
+    <div class="d-flex justify-content-end mb-2">
+
+            @Html.ActionLink("Create New", "Create", new { }, new { @class = "btn btn-success" })
+   
+    </div>
+    <div class="col-12">
+        
+        <table class="table table-bordered table-responsive-sm table-hover table-active">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Model)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Make)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Color)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Price)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Availabel)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Picture)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+
+
+                    <td>@item.Model</td>
+                    <td>@item.Make</td>
+                    <td>@item.Color</td>
+                    <td>@item.Price</td>
+                    <td>@item.Availabel</td>
+                    <td><img src="~/Pictures/@item.Picture" class="img-fluid" style="width:40px;height:40px" /></td>
+
+
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.CarId }, new { @class = "btn btn-success btn-sm" })
+                        @Html.ActionLink("Details", "Details", new { id = item.CarId }, new { @class = "btn btn-success btn-sm" })
+                        @Html.ActionLink("Delete", "Delete", new { id = item.CarId }, new { @class = "btn btn-success btn-sm" })
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>

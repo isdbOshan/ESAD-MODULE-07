@@ -1,0 +1,37 @@
+﻿@model IEnumerable<R54_M7_Class_04_Work_02.Models.Department>
+@{
+    ViewBag.Title = "Index";
+}
+<div class="row">
+    <div class="col-12">
+        <h3>Department</h3>
+        <div class="d-flex justify-content-end mb-1">
+            @*@Html.ActionLink("Create New", "Create", "Departments", new { }, new { @class="btn btn-primary btn-sm" })*@
+            <a href="@Url.Action("Create", "Departments")" class="btn btn-success"><i class="bi bi-plus"></i></a>
+        </div>
+        <table class="table table-bordered">
+            <thead class="table-light">
+                <tr>
+                    <th>Department Code</th>
+                   <th>Work Area</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var d in Model)
+            {
+                <tr>
+                    <td>@d.DepartmentCode</td>
+                    <td>@d.WorkArea</td>
+                    <td>
+                        @*@Html.ActionLink("Edit", "Edit", "Departments", new {id=d.DepartmentId}, new {@class="btn btn-primary btn-sm"})*@
+                        <a class="btn btn-primary btn-sm" href="@Url.Action("Edit", "Departments", new {id=d.DepartmentId})"><i class="bi bi-pencil"></i></a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+    
+</div>
+

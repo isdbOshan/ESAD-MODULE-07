@@ -1,0 +1,112 @@
+﻿@model CarInformation.ViewModel.CarViewModel
+@{
+    ViewBag.Title = "Create";
+}
+
+<div class="row">
+    <div class="col-12">
+        <h3>Create new Car Information</h3>
+        <div id="alert" style="display:none">
+
+        </div>
+        @using (Html.BeginForm("Create", "Cars", FormMethod.Post, htmlAttributes: new { id = "frm" }))
+        {
+            <div class="form-group row mb-2">
+                <label class="col-form-label col-2">Car Model</label>
+                <div class="col-4">
+                    @Html.TextBoxFor(x => x.Model, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Model, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group row mb-2">
+                <label class="col-form-label col-2">Launch Date</label>
+                <div class="col-4">
+                    @Html.TextBoxFor(x => x.Make, new { @class = "form-control date" })
+                    @Html.ValidationMessageFor(x => x.Make, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group row mb-2">
+                <label class="col-form-label col-2">Color</label>
+                <div class="col-4">
+                    @Html.TextBoxFor(x => x.Color, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Color, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group row mb-2">
+                <label class="col-form-label col-2">Price</label>
+                <div class="col-4">
+                    @Html.TextBoxFor(x => x.Price, new { @class = "form-control", @type = "number" })
+                    @Html.ValidationMessageFor(x => x.Price, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group row mb-2">
+                <label class="col-form-label col-2">Stock</label>
+                <div class="col-4">
+                    @Html.CheckBoxFor(x => x.Availabel)
+                    @Html.ValidationMessageFor(x => x.Availabel, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group row mb-2">
+                <label class="col-form-label col-2">Picture</label>
+                <div class="col-4">
+                    @Html.TextBoxFor(x => x.Picture, new { @class = "form-control", @type = "file" })
+                    @Html.ValidationMessageFor(x => x.Picture, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group row mb-2">
+
+                <div class="col-4">
+                    <button type="button" class="btn btn-primary" id="save">Save</button>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="form-group row mb-2">
+
+        <div class="col-4">
+            @Html.ActionLink("Back to List", "Index", new { }, new { @class = "btn btn-success" })
+        </div>
+    </div>
+</div>
+@section styles{
+    <link href="~/Content/bootstrap-datepicker.standalone.css" rel="stylesheet" />
+}
+@section scripts{
+
+    <script src="~/Scripts/jquery-3.6.3.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <script>
+        $(() => {
+            $(".date").datepicker({
+                format: "yyyy-mm-dd"
+            });
+            $("#save").click(() => {
+                var isValid = $("#frm").valid();
+                if (isValid) {
+                    var formData = new FormData();
+                    formData.append("Model", $("#Model").val());
+                    formData.append("Make", $("#Make").val());
+                    formData.append("Color", $("#Color").val());
+                    formData.append("Price", $("#Price").val());
+                    formData.append("Availabel", document.getElementById("Availabel").checked);
+                    if (document.getElementById("Picture").files.length > 0) {
+                        formData.append("Picture", document.getElementById("Picture").files[0]);
+                        /*console.log(formData);*/
+                    }
+                    $.ajax({
+                        type: "POST",
+                        url: "/Cars/Create",
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        success: r => {
+                            $("#alert").html(r).show();
+                        }
+                    });
+                }
+            });
+        })
+    </script>
+}

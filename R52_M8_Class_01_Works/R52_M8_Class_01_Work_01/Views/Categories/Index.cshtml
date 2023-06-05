@@ -1,0 +1,39 @@
+﻿@model IEnumerable<Category>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="row">
+    <div class="col-12">
+        <h3>Categories</h3>
+        <div class="d-flex justify-content-end mb-1">
+            <a asp-controller="Categories" asp-action="Create" class="btn btn-primary btn-sm">Create</a>
+        </div>
+        <table class="table table-bordered">
+            <thead class="table-light">
+                <tr>
+                    <th>Category Name</th>
+                    <th>Description</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var c in Model)
+                {
+                    <tr>
+                        <td>@c.CategoryName</td>
+                        <td>@c.Description</td>
+                        <td class="text-center">
+                            <a class="btn btn-success btn-sm" asp-controller="Categories" asp-action="Edit" asp-route-id="@c.Id"><i class="bi bi-pencil"></i></a>
+                            <a class="btn btn-danger btn-sm" asp-controller="Categories" asp-action="Delete" asp-route-id="@c.Id"><i class="bi bi-trash"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+@section styles {
+    <link href="~/libs/icons/font/bootstrap-icons.css" rel="stylesheet" />
+   
+}

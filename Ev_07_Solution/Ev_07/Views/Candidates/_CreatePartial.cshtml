@@ -1,0 +1,30 @@
+﻿@model Ev_07.Models.Qualification
+@using (Html.BeginForm("AddQualifiactions", "Candidate", FormMethod.Post, new { id = "frm2" }))
+{
+  <div class="form-group row">
+      <div class="col-3">
+          <label>Degree</label>
+          @Html.TextBoxFor(x => x.Degree, new { @class = "form-control" })
+          @Html.ValidationMessageFor(x=> x.Degree, "", new {@class="text-danger"})
+      </div>
+      <div class="col-3">
+          <label>Institute</label>
+          @Html.TextBoxFor(x => x.Institute, new { @class = "form-control" })
+          @Html.ValidationMessageFor(x => x.Institute, "", new { @class = "text-danger" })
+      </div>
+      <div class="col-2">
+          <label>Passing Year</label>
+          @Html.TextBoxFor(x => x.PassingYear, new { @class = "form-control" })
+          @Html.ValidationMessageFor(x => x.PassingYear, "", new { @class = "text-danger" })
+      </div>
+      <div class="col-3">
+          <label>Result</label>
+          @Html.TextBoxFor(x => x.Result, new { @class = "form-control" })
+          @Html.ValidationMessageFor(x => x.Result, "", new { @class = "text-danger" })
+      </div>
+      <div class="col-1">
+          
+          <button type="button" id="add" class="btn btn-secondary btn-sm mt-4">Add</button>
+      </div>
+  </div>
+}

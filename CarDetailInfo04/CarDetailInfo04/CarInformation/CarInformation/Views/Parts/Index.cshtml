@@ -1,0 +1,58 @@
+﻿@model IEnumerable<CarInformation.Models.Car_Parts>
+@{
+    ViewBag.Title = "Index";
+}
+<div class="row">
+    <div class="col-12">
+        <h3>Car Parts Information</h3>
+        <div class="d-flex justify-content-end mb-1">
+            @Html.ActionLink("Create New", "Create", "Parts", new { }, new { @class = "btn btn-primary btn-sm" })
+        </div>
+        <table class="table table-bordered">
+            <thead class="table-light">
+                <tr>
+                    <th>Car Model</th>
+                    <th>Engine Type</th>
+                    <th>Fuel Type</th>
+                    <th>Transmission</th>
+                    <th>Door</th>
+                    <th>Exhaust System</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var q in Model)
+                {
+                    <tr id="tr_@q.PartId">
+                        <td>@q.Car.Model</td>
+                        <td>@q.Engine_type</td>
+                        <td>@q.Fuel_type</td>
+                        <td>@q.Transmission</td>
+                        <td>@q.Number_of_doors</td>
+                        <td>@q.Exhaust_System</td>
+                        <th>
+                            @Html.ActionLink("Edit", "Edit", "Parts", new { @id = q.PartId }, new { @class = "btn btn-primary btn-sm" })
+                            @Ajax.ActionLink("Delete", "Delete", "Parts",
+                           new { id = q.PartId },
+                           new AjaxOptions { HttpMethod = "Post", OnBegin = "onBegin", OnSuccess = "onSuccess" },
+                           new { @class = "btn btn-danger btn-sm del" })
+                        </th>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+@section scripts {
+    <script src="~/Scripts/jquery-3.6.3.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script>
+        function onSuccess(r) {
+            $("#tr_" + r.id).remove();
+        }
+        function onBegin(ev) {
+            if (!confirm("Are you sure to delete?")) ev.preventDefault();
+        }
+    </script>
+}
+

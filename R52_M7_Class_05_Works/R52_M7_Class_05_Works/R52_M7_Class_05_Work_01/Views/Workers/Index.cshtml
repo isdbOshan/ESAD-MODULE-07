@@ -1,0 +1,55 @@
+﻿@model IEnumerable<R52_M7_Class_05_Work_01.Models.ViewModels.WorkerViewModel>
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="row">
+    <div class="col-12">
+        <h3>Hired Workers</h3>
+        <table class="table table-bordered table-striped">
+            <thead class="table-light">
+                <tr>
+                    <th>@Html.DisplayNameFor(x => x.Name)</th>
+                    <th>@Html.DisplayNameFor(x => x.PayRate)</th>
+                    <th>@Html.DisplayNameFor(x => x.StartDate)</th>
+                    <th>@Html.DisplayNameFor(x => x.EndDate)</th>
+                    <th>@Html.DisplayNameFor(x => x.TotalDaysWorked)</th>
+                    <th>@Html.DisplayNameFor(x => x.TotalPay)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var w in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(x => w.Name)</td>
+                    <td>@Html.DisplayFor(x => w.PayRate)</td>
+                    <td>@Html.DisplayFor(x => w.StartDate)</td>
+                    <td>@Html.DisplayFor(x => w.EndDate)</td>
+                    <td>@Html.DisplayFor(x => w.TotalDaysWorked)</td>
+                    <td>@Html.DisplayFor(x => w.TotalPay)</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-end">
+            <ul class="pagination pagination-sm">
+                <li class="page-item">@Html.ActionLink("First", "Index", "Workers", new { page = 1 }, new { @class = "page-link" })</li>
+                @for (var i = 1; i <= ViewBag.TotalPages; i++)
+                {
+                    if (ViewBag.Current == i)
+                    {
+                        <li class="page-item active">@Html.ActionLink(i.ToString(), "Index", "Workers", new { page = i }, new { @class = "page-link" })</li>
+                    }
+                    else
+                    {
+                        <li class="page-item">@Html.ActionLink(i.ToString(), "Index", "Workers", new { page = i }, new { @class = "page-link" })</li>
+                    }
+
+                }
+                <li class="page-item">@Html.ActionLink("Last", "Index", "Workers", new { page = ViewBag.TotalPages }, new { @class = "page-link" })</li>
+            </ul>
+            
+        </div>
+    </div>
+</div>
+

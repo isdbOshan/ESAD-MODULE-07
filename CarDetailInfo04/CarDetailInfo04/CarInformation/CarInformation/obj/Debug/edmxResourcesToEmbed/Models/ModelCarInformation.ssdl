@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DatabaseCarInformationModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Car_Parts">
+    <Key>
+      <PropertyRef Name="PartId" />
+    </Key>
+    <Property Name="PartId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Engine_type" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Fuel_type" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Transmission" Type="varchar" MaxLength="50" />
+    <Property Name="Number_of_doors" Type="int" />
+    <Property Name="Exhaust_System" Type="varchar" MaxLength="50" />
+    <Property Name="CarId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Cars">
+    <Key>
+      <PropertyRef Name="CarId" />
+    </Key>
+    <Property Name="CarId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Model" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Make" Type="datetime" Nullable="false" />
+    <Property Name="Color" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Price" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+    <Property Name="Availabel" Type="bit" Nullable="false" />
+    <Property Name="Picture" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <Association Name="FK__Car_Parts__CarId__38996AB5">
+    <End Role="Cars" Type="Self.Cars" Multiplicity="1" />
+    <End Role="Car_Parts" Type="Self.Car_Parts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cars">
+        <PropertyRef Name="CarId" />
+      </Principal>
+      <Dependent Role="Car_Parts">
+        <PropertyRef Name="CarId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="DatabaseCarInformationModelStoreContainer">
+    <EntitySet Name="Car_Parts" EntityType="Self.Car_Parts" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Cars" EntityType="Self.Cars" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Car_Parts__CarId__38996AB5" Association="Self.FK__Car_Parts__CarId__38996AB5">
+      <End Role="Cars" EntitySet="Cars" />
+      <End Role="Car_Parts" EntitySet="Car_Parts" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

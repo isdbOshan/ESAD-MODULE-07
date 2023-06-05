@@ -1,0 +1,174 @@
+﻿@model CarInformation.ViewModel.CarViewModel
+@{
+    ViewBag.Title = "MasterDetailInsert";
+}
+
+<h2>MasterDetailInsert</h2>
+<div class="row">
+    <div class="col-12">
+        <h3>Create new Car Information</h3>
+        <div id="alert" style="display:none">
+
+        </div>
+        @using (Html.BeginForm("Create", "Cars", FormMethod.Post, htmlAttributes: new { id = "frm1" }))
+        {
+            <div class="form-group row mb-1">
+                <label class="col-form-label col-2">Model</label>
+                <div class="col-4">
+                    @Html.TextBoxFor(x => x.Model, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Model, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group row mb-1">
+                <label class="col-form-label col-2">Make</label>
+                <div class="col-4">
+                    @Html.TextBoxFor(x => x.Make, new { @class = "form-control date" })
+                    @Html.ValidationMessageFor(x => x.Make, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group row mb-1">
+                <label class="col-form-label col-2">Color</label>
+                <div class="col-4">
+                    @Html.TextBoxFor(x => x.Color, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Color, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group row mb-1">
+                <label class="col-form-label col-2">Price</label>
+                <div class="col-4">
+                    @Html.TextBoxFor(x => x.Price, new { @class = "form-control", @type = "number" })
+                    @Html.ValidationMessageFor(x => x.Price, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group row mb-1">
+                <label class="col-form-label col-2">Stock</label>
+                <div class="col-4">
+                    @Html.CheckBoxFor(x => x.Availabel)
+                    @Html.ValidationMessageFor(x => x.Availabel, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group row mb-1">
+                <label class="col-form-label col-2">Picture</label>
+                <div class="col-4">
+                    @Html.TextBoxFor(x => x.Picture, new { @class = "form-control", @type = "file" })
+                    @Html.ValidationMessageFor(x => x.Picture, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+        }
+    </div>
+
+</div>
+<div class="row mt-1">
+    <div class="col-12">
+        @Html.Partial("_CreatePartial")
+    </div>
+</div>
+<div class="row mt-2">
+    <div class="col-12">
+        <table class="table table-bordered">
+            <thead class="table-light">
+                <tr>
+                    <th>Engine_type</th>
+                    <th>Number_of_doors Year</th>
+                    <th>Transmission</th>
+                    <th>Exhaust_System</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="tbd"></tbody>
+        </table>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-end">
+            <button id="save" class="btn btn-primary">Save</button>
+        </div>
+    </div>
+</div>
+@section   styles{
+    <link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" />
+    
+    }
+
+@section scripts{
+    <script src="~/Scripts/jquery-3.6.3.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <script>
+        var qualifications = [];
+        $("#add").click(() => {
+            let isValid = $("#frm2").valid();
+            if (isValid) {
+                qualifications.push({
+                    Engine_type: $("#Engine_type").val(),
+                    Number_of_doors: $("#Number_of_doors").val(),
+                    Transmission: $("#Transmission").val(),
+                    Exhaust_System: $("#Exhaust_System").val()
+                });
+                load();
+            }
+        });
+        $(".date").datepicker({
+            format: "yyyy-mm-dd"
+        });
+        function load() {
+            $("#tbd").empty();
+            qualifications.forEach((q, i) => {
+                $("#tbd").append(`<tr>
+                            <td>${q.Engine_type}</td>
+                            <td>${q.Number_of_doors}</td>
+                            <td>${q.Transmission}</td>
+                            <td>${q.Exhaust_System}</td>
+                            <td><button type='button' data-index="${i}" class='btn btn-danger btn-sm del'>Del</button></td>
+                                </tr>`);
+            });
+        }
+        $(document).on("click", 'button.del', function () {
+            let index = $(this).data('index');
+            qualifications.splice(index, 1);
+            $(this).parent().parent().remove();
+            $("#frm2").trigger('reset');
+        });
+        $("#save").click(() => {
+            var isValid = $("#frm1").valid();
+            if (isValid) {
+                var formData = new FormData();
+                formData.append("Model", $("#Model").val());
+                formData.append("Make", $("#Make").val());
+                formData.append("Color", $("#Color").val());
+                formData.append("Price", $("#Price").val());
+                formData.append("Availabel", document.getElementById("Availabel").checked);
+                if (document.getElementById("Picture").files.length > 0) {
+                    formData.append("Picture", document.getElementById("Picture").files[0]);
+                    /*console.log(formData);*/
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "/Cars/CreateMaster",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: r => {
+                        console.log(r)
+                        $.ajax({
+                            type: "POST",
+                            url: "/Cars/AddQualifications/" + r.CandidateId,
+                            contentType: "application/json",
+                            data: JSON.stringify(qualifications),
+                            dataType: "json",
+                            success: r => {
+                                alert("Data saved");
+                            },
+                            error: err => {
+
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    </script>
+}

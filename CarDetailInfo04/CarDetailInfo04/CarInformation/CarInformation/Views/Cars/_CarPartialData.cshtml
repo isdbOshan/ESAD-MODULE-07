@@ -1,0 +1,32 @@
+﻿@model IEnumerable<CarInformation.Models.Car>
+<table class="table table-bordered table-striped table-hover table-light">
+    <thead class="table-primary text-dark">
+        <tr class="text-center fs-4">
+            <th>Car Demo</th>
+            <th>Launch Date</th>
+            <th>Color</th>
+            <th>Price</th>
+            <th>Stock</th>
+            <th>Picture</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var c in Model)
+        {
+            <tr id="tr_@c.CarId">
+                <td>@c.Model</td>
+                <td>@c.Make.ToString("yyyy-MM-dd")</td>
+                <td>@c.Color</td>
+                <td>@c.Price.ToString("0.00")</td>
+                <td>@(c.Availabel.Value ? "Yes": "No")</td>
+                <td><img src="~/Pictures/@c.Picture" class="img-fluid border border-opacity-10 shadow" style="width:70px" /></td>
+                <td>
+                 @Html.ActionLink("Edit", "Edit", "Cars", new { id = c.CarId }, new { @class = "btn btn-primary btn-sm" })
+
+                    @Ajax.ActionLink("Delete", "Delete", "Cars", new { id = c.CarId }, new AjaxOptions { HttpMethod = "Post", OnBegin = "onBegin", OnSuccess = "onSuccess" }, new { @class = "btn btn-danger btn-sm" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

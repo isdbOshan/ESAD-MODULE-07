@@ -1,0 +1,165 @@
+﻿@model Ev_07.ViewModels.CandidateViewModel
+@{
+    ViewBag.Title = "MasterDetailInsert";
+}
+
+<h2>MasterDetailInsert</h2>
+<div class="row">
+    <div class="col-12">
+        <h3>Create new candidate</h3>
+        <div id="alert" style="display:none">
+
+        </div>
+        @using (Html.BeginForm("Create", "Candidates", FormMethod.Post, htmlAttributes: new { id = "frm1" }))
+        {
+            <div class="form-group row mb-1">
+                <label class="col-form-label col-2">Candidate name</label>
+                <div class="col-4">
+                    @Html.TextBoxFor(x => x.CandidateName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.CandidateName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group row mb-1">
+                <label class="col-form-label col-2">Date of birth</label>
+                <div class="col-4">
+                    @Html.TextBoxFor(x => x.BirthDate, new { @class = "form-control date" })
+                    @Html.ValidationMessageFor(x => x.BirthDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group row mb-1">
+                <label class="col-form-label col-2">Applied for</label>
+                <div class="col-4">
+                    @Html.TextBoxFor(x => x.AppliedFor, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.AppliedFor, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group row mb-1">
+                <label class="col-form-label col-2">Expected Salary</label>
+                <div class="col-4">
+                    @Html.TextBoxFor(x => x.ExpectedSalary, new { @class = "form-control", @type = "number" })
+                    @Html.ValidationMessageFor(x => x.ExpectedSalary, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group row mb-1">
+                <label class="col-form-label col-2">Agree to work from home?</label>
+                <div class="col-4">
+                    @Html.CheckBoxFor(x => x.WorkFromHome)
+                    @Html.ValidationMessageFor(x => x.WorkFromHome, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group row mb-1">
+                <label class="col-form-label col-2">Picture</label>
+                <div class="col-4">
+                    @Html.TextBoxFor(x => x.Picture, new { @class = "form-control", @type = "file" })
+                    @Html.ValidationMessageFor(x => x.Picture, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+        }
+    </div>
+
+</div>
+<div class="row mt-1">
+    <div class="col-12">
+        @Html.Partial("_CreatePartial")
+    </div>
+</div>
+<div class="row mt-2">
+    <div class="col-12">
+        <table class="table table-bordered">
+            <thead class="table-light">
+                <tr>
+                    <th>Degree</th>
+                    <th>Institute</th>
+                    <th>Passing Year</th>
+                    <th>Result</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="tbd"></tbody>
+        </table>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-end">
+            <button id="save" class="btn btn-primary">Save</button>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script src="~/Scripts/jquery-3.6.3.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script>
+        var qualifications = [];
+        $("#add").click(() => {
+            let isValid = $("#frm2").valid();
+            if (isValid) {
+                qualifications.push({
+                    Degree: $("#Degree").val(),
+                    PassingYear: $("#PassingYear").val(),
+                    Institute: $("#Institute").val(),
+                    Result: $("#Result").val()
+                });
+                load();
+            }
+        });
+        function load() {
+            $("#tbd").empty();
+            qualifications.forEach((q, i) => {
+                $("#tbd").append(`<tr>
+                    <td>${q.Degree}</td>
+                    <td>${q.Institute}</td>
+                    <td>${q.PassingYear}</td>
+                    <td>${q.Result}</td>
+                    <td><button type='button' data-index="${i}" class='btn btn-danger btn-sm del'>Del</button></td>
+                        </tr>`);
+            });
+        }
+        $(document).on("click", 'button.del', function () {
+            let index = $(this).data('index');
+            qualifications.splice(index, 1);
+            $(this).parent().parent().remove();
+            $("#frm2").trigger('reset');
+        });
+        $("#save").click(() => {
+            var isValid = $("#frm1").valid();
+            if (isValid) {
+                var formData = new FormData();
+                formData.append("CandidateName", $("#CandidateName").val());
+                formData.append("BirthDate", $("#BirthDate").val());
+                formData.append("AppliedFor", $("#AppliedFor").val());
+                formData.append("ExpectedSalary", $("#ExpectedSalary").val());
+                formData.append("WorkFromHome", document.getElementById("WorkFromHome").checked);
+                if (document.getElementById("Picture").files.length > 0) {
+                    formData.append("Picture", document.getElementById("Picture").files[0]);
+                    console.log(formData);
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "/Candidates/CreateMaster",
+                    data: formData,
+                    contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
+                    processData: false,
+                    success: r => {
+                        console.log(r)
+                        $.ajax({
+                            type: "POST",
+                            url: "/Candidates/AddQualifications/" + r.CandidateId,
+                            contentType: "application/json",
+                            data: JSON.stringify(qualifications),
+                            dataType: "json",
+                            success: r => {
+                                alert("Data saved");
+                            },
+                            error: err => {
+
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    </script>
+}

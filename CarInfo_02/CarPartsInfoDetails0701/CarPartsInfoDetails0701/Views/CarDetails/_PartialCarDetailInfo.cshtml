@@ -1,0 +1,33 @@
+﻿@model IEnumerable<CarPartsInfoDetails0701.Models.Car>
+<table class="table table-striped table-responsive-sm table-hover table-light table-bordered table-light">
+    <thead class="bg-success text-dark">
+        <tr class="bg-secondary">
+            <th>Picture</th>
+            <th>Model Name</th>
+            <th>Launch Year</th>
+            <th>Color</th>
+            <th>Price</th>
+            <th>Available</th>
+            <th>.....</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var c in Model)
+        {
+            <tr>
+                <td><img src="~/Updoads/@c.Picture" class="img-fluid" style="width:40px;height:40px" /></td>
+                <td>@c.Model</td>
+                <td>@c.Make</td>
+                <td>@c.Color</td>
+                <td>@c.Price</td>
+                <td>@c.Availabel</td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", "CarDetails", new { id = c.CarId }, new { @class = "btn btn-primary btn-sm" })
+
+                    @Html.ActionLink("Delete", "Delete", "CarDetails", new { id = c.CarId }, new { @class = "btn btn-danger btn-sm" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

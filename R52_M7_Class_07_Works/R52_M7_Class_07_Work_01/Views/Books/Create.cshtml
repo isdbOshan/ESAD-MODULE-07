@@ -1,0 +1,81 @@
+﻿@model R52_M7_Class_07_Work_01.Models.Book
+@{
+    ViewBag.Title = "Create";
+}
+
+<div class="row">
+    <div class="col-12">
+        <h3>Create new book</h3>
+        <div class="alert alert-warning alert-dismissible fade show" role="alert" id="alert" style="display:none">
+            <strong id="result">Holy guacamole!</strong> <span id="msg"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        @using (Html.BeginForm("Create", "Books", FormMethod.Post, new { id = "frm" }))
+        {
+            <div class="form-group row mb-1">
+                @Html.LabelFor(x => x.Title, new { @class = "col-form-label col-2" })
+                <div class="col-4">
+                    @Html.TextBoxFor(x => x.Title, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Title, "", new { @class = "text-danger", style = "font-size:.75rem;" })
+                </div>
+            </div>
+            <div class="form-group row mb-1">
+                @Html.LabelFor(x => x.Genre, new { @class = "col-form-label col-2" })
+                <div class="col-4">
+                    @Html.EnumDropDownListFor(x => x.Genre, new { @class = "form-select" })
+                    @Html.ValidationMessageFor(x => x.Genre, "", new { @class = "text-danger", style = "font-size:.75rem;" })
+                </div>
+            </div>
+            <div class="form-group row mb-1">
+                @Html.LabelFor(x => x.Price, new { @class = "col-form-label col-2" })
+                <div class="col-4">
+                    @Html.TextBoxFor(x => x.Price, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Price, "", new { @class = "text-danger", style = "font-size:.75rem;" })
+                </div>
+            </div>
+            <div class="form-group row mb-1">
+                @Html.LabelFor(x => x.Format, new { @class = "col-form-label col-2" })
+                <div class="col-4">
+                    @Html.EnumDropDownListFor(x => x.Format, new { @class = "form-select" })
+                    @Html.ValidationMessageFor(x => x.Format, "", new { @class = "text-danger", style = "font-size:.75rem;" })
+                </div>
+            </div>
+            <div class="form-group row mb-1">
+                <div class="col-4 offset-2">
+                    <button type="button" class="btn btn-outline-primary" id="save">Save</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+@section scripts {
+    <script src="~/Scripts/jquery-3.6.3.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script>
+        $(() => {
+            $("#save").click(() => {
+                let isValid = $("#frm").valid();
+                if (isValid) {
+                    //let data = $("#frm").serialize();
+                    let data = { title: $("#Title").val(), genre: $("#Genre").val(), price: $("#Price").val(), format: $("#Format").val() }
+                    console.log(data);
+                    $.ajax({
+                        type: "POST",
+                        url: "/Books/Create",
+                        data: data,
+                        dataType:"json",
+                        success: (r) => {
+                            $("#msg").html(r.message);
+                            $("#alert").removeClass("alert-warning")
+                                .addClass("alert-success")
+                                .show();
+                            $("#frm").trigger('reset');
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}
+

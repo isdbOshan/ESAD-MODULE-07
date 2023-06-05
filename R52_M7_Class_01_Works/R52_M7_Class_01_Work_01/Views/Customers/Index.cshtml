@@ -1,0 +1,13 @@
+﻿@model IEnumerable<R52_M7_Class_01_Work_01.Models.Customer>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+<ul>
+    @foreach(var c in Model)
+            {
+                <li>@c.CompanyName</li>
+            }
+</ul>
+
